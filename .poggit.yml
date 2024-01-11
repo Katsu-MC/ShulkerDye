@@ -6,4 +6,5 @@ projects:
   ShulkerDye:
     path: ""
     lint: false
+    icon: icon.png
 ...
