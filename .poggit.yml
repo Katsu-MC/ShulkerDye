@@ -5,4 +5,5 @@ branches:
 projects:
   ShulkerDye:
     path: ""
+    lint: false
 ...
