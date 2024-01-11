@@ -1,0 +1,6 @@
+name: ShulkerDye
+version: 1.0.0
+author: Katsu
+api: 5.0.0
+main: Katsu\ShulkerDye\Main
+description: Allows the player to dye the shulker boxes.
