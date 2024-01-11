@@ -1,5 +1,5 @@
 <p align="center">
-    <a href="https://github.com/Terpz710/TNTBlastRadius"><img src="https://github.com/Terpz710/TNTBlastRadius/blob/main/icon.png"></img></a><br>
+    <a href="https://github.com/Katsu-MC/ShulkerDye/tree/main"><img src="https://github.com/Katsu-MC/ShulkerDye/blob/main/icon.png"></img></a><br>
     <b>Shulker dying function for Pocketmine-MP</b>
 
 # Description
