@@ -49,7 +49,7 @@ class Main extends PluginBase implements Listener {
             $shulkerBoxIngredient = new ExactRecipeIngredient($shulkerBox);
             $shapelessRecipeType = ShapelessRecipeType::CRAFTING();
             $recipe = new ShapelessRecipe([$shulkerBoxIngredient, $dyeIngredient], [$resultShulker], $shapelessRecipeType);
-            $recipe->getResults([$resultShulker->setNamedTag($shulkerBox->getNamedTagClone())]);
+            $recipe->getResults([$resultShulker->setNamedTag($shulkerBox->getNamedTag())]);
             $this->getServer()->getCraftingManager()->registerShapelessRecipe($recipe);
         }
     }
