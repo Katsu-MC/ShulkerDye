@@ -6,6 +6,7 @@ namespace Katsu\ShulkerDye;
 
 use pocketmine\plugin\PluginBase;
 use pocketmine\event\Listener;
+use pocketmine\event\inventory\CraftItemEvent;
 use pocketmine\item\Item;
 use pocketmine\item\VanillaItems;
 use pocketmine\block\VanillaBlocks;
@@ -49,8 +50,25 @@ class Main extends PluginBase implements Listener {
             $shulkerBoxIngredient = new ExactRecipeIngredient($shulkerBox);
             $shapelessRecipeType = ShapelessRecipeType::CRAFTING();
             $recipe = new ShapelessRecipe([$shulkerBoxIngredient, $dyeIngredient], [$resultShulker], $shapelessRecipeType);
-            $recipe->getResults([$resultShulker->setNamedTag($shulkerBox->getNamedTag())]);
             $this->getServer()->getCraftingManager()->registerShapelessRecipe($recipe);
+        }
+    }
+
+    public function onCraftItem(CraftItemEvent $event): void {
+        $transaction = $event->getTransaction();
+        $inventories = $transaction->getInventories();
+        foreach ($inventories as $inventory) {
+            foreach ($event->getOutputs() as $output) {
+                if ($output->getTypeId() === VanillaBlocks::DYED_SHULKER_BOX()->asItem()->getTypeId()) {
+                    foreach ($event->getTransaction()->getInputSlotChanges() as $change) {
+                        $input = $change->getSourceItem();
+                        if ($input->getTypeId() === VanillaBlocks::SHULKER_BOX()->asItem()->getTypeId()) {
+                            $output->setNamedTag($input->getNamedTag());
+                            break;
+                        }
+                    }
+                }
+            }
         }
     }
 }
