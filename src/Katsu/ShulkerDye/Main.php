@@ -14,6 +14,7 @@ use pocketmine\block\utils\DyeColor;
 use pocketmine\crafting\ShapelessRecipe;
 use pocketmine\crafting\ShapelessRecipeType;
 use pocketmine\crafting\ExactRecipeIngredient;
+use pocketmine\nbt\tag\ListTag;
 
 class Main extends PluginBase implements Listener {
 
@@ -60,10 +61,13 @@ class Main extends PluginBase implements Listener {
         foreach ($inventories as $inventory) {
             foreach ($event->getOutputs() as $output) {
                 if ($output->getTypeId() === VanillaBlocks::DYED_SHULKER_BOX()->asItem()->getTypeId()) {
-                    foreach ($event->getTransaction()->getInputSlotChanges() as $change) {
+                    foreach ($transaction->getInputSlotChanges() as $change) {
                         $input = $change->getSourceItem();
                         if ($input->getTypeId() === VanillaBlocks::SHULKER_BOX()->asItem()->getTypeId()) {
-                            $output->setNamedTag($input->getNamedTag());
+                            if ($input->getNamedTag()->getTag("Items", ListTag::class)) {
+                                $itemsTag = $input->getNamedTag()->getListTag("Items");
+                                $output->getNamedTag()->setTag(clone $itemsTag);
+                            }
                             break;
                         }
                     }
