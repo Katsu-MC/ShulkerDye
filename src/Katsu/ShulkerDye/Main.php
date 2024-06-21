@@ -15,6 +15,7 @@ use pocketmine\crafting\ShapelessRecipe;
 use pocketmine\crafting\ShapelessRecipeType;
 use pocketmine\crafting\ExactRecipeIngredient;
 use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\CompoundTag;
 
 class Main extends PluginBase implements Listener {
 
@@ -60,9 +61,11 @@ class Main extends PluginBase implements Listener {
             if ($output->getTypeId() === VanillaBlocks::DYED_SHULKER_BOX()->asItem()->getTypeId()) {
                 foreach ($event->getInputs() as $input) {
                     if ($input->getTypeId() === VanillaBlocks::SHULKER_BOX()->asItem()->getTypeId()) {
-                        if ($input->getNamedTag()->getTag("Items", ListTag::class)) {
-                            $itemsTag = $input->getNamedTag()->getListTag("Items");
-                            $output->getNamedTag()->setTag(clone $itemsTag);
+                        $itemsTag = $input->getNamedTag()->getListTag("Items");
+                        if ($itemsTag instanceof ListTag) {
+                            $namedTag = $output->getNamedTag() ?? new CompoundTag();
+                            $namedTag->setTag("Items", clone $itemsTag);
+                            $output->setNamedTag($namedTag);
                         }
                         break;
                     }
