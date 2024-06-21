@@ -56,20 +56,15 @@ class Main extends PluginBase implements Listener {
     }
 
     public function onCraftItem(CraftItemEvent $event): void {
-        $transaction = $event->getTransaction();
-        $inventories = $transaction->getInventories();
-        foreach ($inventories as $inventory) {
-            foreach ($event->getOutputs() as $output) {
-                if ($output->getTypeId() === VanillaBlocks::DYED_SHULKER_BOX()->asItem()->getTypeId()) {
-                    foreach ($transaction->getInputSlotChanges() as $change) {
-                        $input = $change->getSourceItem();
-                        if ($input->getTypeId() === VanillaBlocks::SHULKER_BOX()->asItem()->getTypeId()) {
-                            if ($input->getNamedTag()->getTag("Items", ListTag::class)) {
-                                $itemsTag = $input->getNamedTag()->getListTag("Items");
-                                $output->getNamedTag()->setTag(clone $itemsTag);
-                            }
-                            break;
+        foreach ($event->getOutputs() as $output) {
+            if ($output->getTypeId() === VanillaBlocks::DYED_SHULKER_BOX()->asItem()->getTypeId()) {
+                foreach ($event->getInputs() as $input) {
+                    if ($input->getTypeId() === VanillaBlocks::SHULKER_BOX()->asItem()->getTypeId()) {
+                        if ($input->getNamedTag()->getTag("Items", ListTag::class)) {
+                            $itemsTag = $input->getNamedTag()->getListTag("Items");
+                            $output->getNamedTag()->setTag(clone $itemsTag);
                         }
+                        break;
                     }
                 }
             }
